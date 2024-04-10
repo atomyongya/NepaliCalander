@@ -21,7 +21,7 @@ jobs:
         with:
           path: "./.flutter"
           key: flutter-${{ runner.os }}-${{ github.repository }}-${{ env.FLUTTER_VERSION }}-${{ env.CACHE_VERSION }}
-      
+
       - name: Install flutter SDK
         run: |
           ./run install-ci-flutter
@@ -34,9 +34,6 @@ jobs:
 
       - name: Check code synatx and logic is correct
         run: ./run lint
-      
+
       - name: Check code passes unit tests
         run: ./run test
-
-
-      
