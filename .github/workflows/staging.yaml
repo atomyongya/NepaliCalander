@@ -1,12 +1,12 @@
 name: Nepali Calander Staging Workflow
 on:
-  push: 
+  push:
     branches:
       - feat_1/github_actions
 
 env:
   FLUTTER_VERSION: 3.19.2
-  CACHE_VERSION: 2024_04_10
+  CACHE_VERSION: 2024_04_11
   FLUTTER_PATH: .flutter
 
 jobs:
