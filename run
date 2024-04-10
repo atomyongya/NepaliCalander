@@ -8,7 +8,7 @@ install_ci_flutter(){
         echo Flutter SDK already exist.
     fi
 
-    echo "$pwd/$FLUTTER_PATH/bin" >> $GITHUB_PATH
+    echo "$PWD/$FLUTTER_PATH/bin" >> $GITHUB_PATH
     $FLUTTER_PATH/bin/flutter pub get
 }
 
