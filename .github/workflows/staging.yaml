@@ -51,6 +51,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/cache@v4
+        with:
+          # Do not wrap ./.flutter with double quotes because in the next workflow, it won't be able to use the cache.
+          path: ./.flutter
+          key: flutter-${{ runner.os }}-${{ github.repository }}-${{ env.FLUTTER_VERSION }}-${{ env.CACHE_VERSION }}
+
+      - name: Install flutter SDK
+        run: ./run install-ci-flutter
+
+      - name: Show flutter current versions
+        run: flutter --version
+
       - name: Build android apk file
         run: ./run build-apk
 
