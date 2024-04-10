@@ -19,7 +19,7 @@ jobs:
       # Cahce flutter sdk
       - uses: actions/cache@v4
         with:
-          path: "./.flutter"
+          path: ./.flutter
           key: flutter-${{ runner.os }}-${{ github.repository }}-${{ env.FLUTTER_VERSION }}-${{ env.CACHE_VERSION }}
 
       - name: Install flutter SDK
