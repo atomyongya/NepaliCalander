@@ -1,0 +1,40 @@
+name: Nepali Calander Staging Workflow
+on:
+  push:
+    - feat_1/github_actions
+
+env:
+  FLUTTER_VERSION: 3.19.2
+  CACHE_VERSION: 2024_04_10
+  FLUTTER_PATH: .flutter
+
+jobs:
+  JOB-code-validation:
+    name: Check code
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      uses: actions/checkout@v4
+      # Cahce flutter sdk
+      uses: actions/cache@v4
+        with:
+          path: ./.flutter
+          key: flutter-${{ runner.os }}-${{ github.repository }}-${{ env.FLUTTER_VERSION }}-${{ env.CACHE_VERSION }}
+      
+      - name: Install flutter SDK
+        run: ./run install-ci-flutter
+
+      - name: Show flutter current versions
+        run: flutter --version
+
+      - name: Check code format
+        run: dart format .
+
+      - name: Check code synatx and logic is correct
+        run: ./run lint
+      
+      - name: Check code passes unit tests
+        run: ./run test
+
+
+      
