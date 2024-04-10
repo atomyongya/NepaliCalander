@@ -12,6 +12,11 @@ install_ci_flutter(){
     $FLUTTER_PATH/bin/flutter pub get
 }
 
+android_build_apk(){
+    flutter build apk
+}
+
 if [ "$1" = "install-ci-flutter" ]; then install_ci_flutter; exit; fi
 if [ "$1" = "lint" ]; then flutter analyze; exit $?; fi
 if [ "$1" = "test" ]; then flutter test; exit $?; fi
+if [ "$1" = "build-apk" ]; then android_build_apk; exit; fi
