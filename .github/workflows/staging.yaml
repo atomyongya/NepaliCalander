@@ -54,15 +54,10 @@ jobs:
       - name: Build android apk file
         run: ./run build-apk
 
-      - name: Show generated versions
-        run: |
-          export SEM_VERSION=$(./run android-version build/app/outputs/flutter-apk/app-staging-release.apk all)
-          echo "App version is: $SEM_VERSION"
-
       - name: Save anroid artifacts
         uses: actions/upload-artifact@v4
         with:
           name: android-result
           path: |
-            build/app/outputs/flutter-apk/app-staging-release.apk
+            build/app/outputs/flutter-apk/app-debug.apk
 
