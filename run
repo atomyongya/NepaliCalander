@@ -3,8 +3,13 @@
 # Install flutter in runner if not exist.
 install_ci_flutter(){
     echo Reached to function
-    if [ ! -d $FLUTTER_PATH/bin ]; then git clone --single-branch --branch $FLUTTER_VERSION --depth 1 https://github.com/flutter/flutter.git $FLUTTER_PATH; fi
-    echo "$pwd/$FLUTTER_PATH/bin" >> $GITHUB_PATH
+    if [ ! -d $FLUTTER_PATH/bin ]; then
+        git clone --single-branch --branch $FLUTTER_VERSION --depth 1 https://github.com/flutter/flutter.git
+        export $FLUTTER_PATH
+        echo "$pwd/$FLUTTER_PATH/bin" >> $GITHUB_PATH
+        echo Flutter SDK already exist.
+    fi
+
     $FLUTTER_PATH/bin/flutter pub get
 }
 

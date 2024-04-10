@@ -26,7 +26,7 @@ jobs:
         run: ./run install-ci-flutter
 
       - name: Show flutter current versions
-        run: ${{ env.FLUTTER_PATH }}/flutter --version
+        run: flutter --version
 
       - name: Check code format
         run: dart format .
