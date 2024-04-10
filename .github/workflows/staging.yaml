@@ -23,7 +23,7 @@ jobs:
           key: flutter-${{ runner.os }}-${{ github.repository }}-${{ env.FLUTTER_VERSION }}-${{ env.CACHE_VERSION }}
       
       - name: Install flutter SDK
-        run: | 
+        run: |
           ./run install-ci-flutter
 
       - name: Show flutter current versions
