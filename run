@@ -13,8 +13,7 @@ install_ci_flutter(){
 }
 
 android_build_apk(){
-    $FLUTTER_PATH/bin/flutter build apk
-    echo $PWD/build/app/outputs/flutter-apk
+    flutter build apk
 }
 
 if [ "$1" = "install-ci-flutter" ]; then install_ci_flutter; exit; fi
