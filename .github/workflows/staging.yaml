@@ -58,12 +58,6 @@ jobs:
           path: ./.flutter
           key: flutter-${{ runner.os }}-${{ github.repository }}-${{ env.FLUTTER_VERSION }}-${{ env.CACHE_VERSION }}
 
-      - name: Install flutter SDK
-        run: ./run install-ci-flutter
-
-      - name: Show flutter current versions
-        run: flutter --version
-
       - name: Build android apk file
         run: ./run build-apk
 
