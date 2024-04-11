@@ -60,13 +60,13 @@ jobs:
 
       - name: Get android code signing files
         run: |
-          ./appsignin add-android-debugkey
+          ./appsign add-android-debugkey
           ls -alh *.jks
 
       - name: Build android apk file
         run: |
           ./run build-apk
-          ./appsignin remove-android-key
+          ./appsign remove-android-key
 
       # - name: Show generated version
       #   run: |
