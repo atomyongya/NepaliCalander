@@ -22,6 +22,10 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+// Check key.properties file on root folder of build.gradle.
+def keyProperties = new Properties()
+def keyStorePropertiesFile = rootProject.file('key.properties')
+
 android {
     namespace "com.example.calander"
     compileSdkVersion flutter.compileSdkVersion
@@ -70,10 +74,33 @@ android {
         }
     }
 
+    signingConfigs {
+        release {
+            if (keyStorePropertiesFile.exists()){
+                keyProperties.load(keyStorePropertiesFile.newDataInputStream())
+                storeFile keyProperties['storeFile'] ? file(keyProperties['storeFile']) : null
+                storePassword keyProperties.getProperty('storePassword')
+                keyAlias keyProperties.getProperty('keyAlias')
+                keyPassword keyProperties.getProperty('keyPassword')
+            }
+        }
+        debug {
+            storeFile file("../../android-debug-key.jks")
+            storePassword 'android'
+            keyAlias 'androidkeydebug'
+            keyPassword 'android'
+        }
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
+            debuggable false
+            signingConfig signingConfigs.release
+        }
+        debug {
+            debuggable true
             signingConfig signingConfigs.debug
         }
     }

@@ -43,12 +43,6 @@ jobs:
     needs: JOB-code-validation
     runs-on: ubuntu-latest
     timeout-minutes: 25
-    # Environment specific to this job.
-    env:
-      ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-      ANDROID_UPLOAD_KEY_BASE64: ${{ secrets.ANDROID_UPLOAD_KEY_BASE64 }}
-      SECRETS_PASSWORD: ${{ secrets.SECRETS_PASSWORD }}
-
     steps:
       - uses: actions/checkout@v4
 
@@ -58,8 +52,26 @@ jobs:
           path: ./.flutter
           key: flutter-${{ runner.os }}-${{ github.repository }}-${{ env.FLUTTER_VERSION }}-${{ env.CACHE_VERSION }}
 
+      - name: Install flutter SDK
+        run: ./run install-ci-flutter
+
+      - name: Show flutter current versions
+        run: flutter --version
+
+      - name: Get android code signing files
+        run: |
+          ./appsignin add-android-debugkey
+          ls -alh *.jks
+
       - name: Build android apk file
-        run: ./run build-apk
+        run: |
+          ./run build-apk
+          ./appsignin remove-android-key
+
+      # - name: Show generated version
+      #   run: |
+      #     export $EM_VERSION=$( ./run android-version build/app/outputs/flutter-apk/app-staging-release.apk all)
+      #     echo "App version is: $EM_VERSION"
 
       - name: Save anroid artifacts
         uses: actions/upload-artifact@v4
