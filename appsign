@@ -24,7 +24,7 @@ create_android_key(){
 add_android_debugkey(){
     echo "storePassword=android
 keyPassword=android
-keyAlias=androiddebugkey
+keyAlias=upload
 storeFile=$PWD/android-key.jks
  " > $PWD/android/key.properties
 
@@ -39,7 +39,6 @@ remove_android_key(){
 }
 
 if [ -f ./env.settings ]; then . ./env.settings; fi
-if [ -f ./.env ]; then . ./.env; fi
 
 if [ "$1" = "create-android-key" ]; then create_android_key; exit; fi
 if [ "$1" = "remove-android-key" ]; then remove_android_key; exit; fi
