@@ -13,7 +13,7 @@ install_ci_flutter(){
 }
 
 android_build_apk(){
-    flutter build apk --flavor staging --define-APP_FLAVOR=staging
+    flutter build apk --flavor staging --dart-define-APP_FLAVOR=staging
 }
 
 if [ "$1" = "install-ci-flutter" ]; then install_ci_flutter; exit; fi
