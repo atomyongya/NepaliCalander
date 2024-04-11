@@ -51,6 +51,25 @@ android {
         versionName flutterVersionName
     }
 
+    // flavorDimensions is depecrated in latest version of build gradle but flutter still using old version.
+    flavorDimensions "default"
+    productFlavors {
+        dev {
+            dimension "default"
+            resValue "string", "app_name", "Nepali Calander DEV"
+            applicationIdSuffix ".dev"
+        }
+        staging {
+            dimension "default"
+            resValue "string", "app_name", "Nepali Calander Staging"
+            applicationIdSuffix ".staging"
+        }
+        prod {
+            dimension "default"
+            resValue "string", "app_name", "Neapli Calander"
+        }
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.

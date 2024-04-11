@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "dev",
+            "request": "launch",
+            "type": "dart",
+            "args": ["--flavor", "dev", "--dart-define=APP_FLAVOR=dev"]
+        },
+        {
+            "name": "staging",
+            "request": "launch",
+            "type": "dart",
+            "args": ["--flavor", "staging", "--dart-define=APP_FLAVOR=staging"]
+        },
+        {
+            "name": "prod",
+            "request": "launch",
+            "type": "dart",
+            "args": ["--flavor", "prod", "--dart-define=APP_FLAVOR=prod"]
+        }
+    ]
+}
