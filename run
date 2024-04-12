@@ -5,7 +5,7 @@ install_ci_flutter(){
     if [ ! -d $FLUTTER_PATH/bin ]; then
         git clone --single-branch --branch $FLUTTER_VERSION --depth 1 https://github.com/flutter/flutter.git $FLUTTER_PATH
     else
-        echo Flutter SDK already exist.
+        echo Flutter SDK already exists.
     fi
 
     echo "$PWD/$FLUTTER_PATH/bin" >> $GITHUB_PATH

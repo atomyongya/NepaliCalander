@@ -14,6 +14,7 @@ jobs:
     name: Check code
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    environment: staging
     steps:
       - uses: actions/checkout@v4
       # Cahce flutter sdk
@@ -22,6 +23,11 @@ jobs:
           # Do not wrap ./.flutter with double quotes because in the next workflow, it won't be able to use the cache.
           path: ./.flutter
           key: flutter-${{ runner.os }}-${{ github.repository }}-${{ env.FLUTTER_VERSION }}-${{ env.CACHE_VERSION }}
+
+      - name: Log secrets and varialbe
+        run: |
+          echo ${{ secrets.ANDROID_KEYPAIR_PASSWORD }}
+          echo ${{ vars.APP_NAME_EXAMPLE }}
 
       - name: Install flutter SDK
         run: ./run install-ci-flutter
