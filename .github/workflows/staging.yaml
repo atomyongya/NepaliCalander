@@ -73,6 +73,6 @@ jobs:
 
       - name: Save android artifcat
         uses: actions/upload-artifact@v4
-          with:
-            name: android-result
-            path: build/app/outputs/flutter-apk/app-uat-release.apk
+        with:
+          name: android-result
+          path: build/app/outputs/flutter-apk/app-uat-release.apk
