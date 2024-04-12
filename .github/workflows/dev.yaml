@@ -1,6 +1,6 @@
 name: Nepali Calander Development Workflow
 on:
-  push:
+  workflow_dispatch:
     branches:
       - feat_1/github_actions
 
