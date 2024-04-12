@@ -12,9 +12,19 @@ install_ci_flutter(){
     $FLUTTER_PATH/bin/flutter pub get
 }
 
-# Create android apk (Android Application Package), mainly used for dev environment.
+# Create android apk (Android Application Package) for dev flavor.
 android_build_apk(){
+    flutter build apk --flavor dev --dart-define=APP_FLAVOR=dev
+}
+
+# Create android apk (Android Application Package) for uat flavor.
+android_build_apk_uat(){
     flutter build apk --flavor staging --dart-define=APP_FLAVOR=staging
+}
+
+# Create aab for prod flavor.
+android_build_aab(){
+    flutter build appbundle --flavor prod --dart-define=APP_FLAVOR=prod
 }
 
 # Get android version from apk or aab (Android App Bundle) file.
@@ -29,11 +39,11 @@ get_android_version(){
     FILE_EXTENSION=$(echo FILE_PATH | cut -d'.' -f2)
 
     # Locate aapt (Android Asset Packaging Tool)
-    AAPT_EXECUTABLE=$(find $ANDROID_PATH/build-tools -maxdepth 2 -name 'aapt' | head -n1)
+    AAPT_EXECUTABLE=$(find $ANDROID_HOME/build-tools -maxdepth 2 -name 'aapt' | head -n1)
 
     # If file is of type aab.
     if [ "$FILE_EXTENSION" = "aab" ]; then
-        AAPT2_EXECUTABLE=$(find $ANDROID_PATH/build-tools -maxdepth 2 -name 'aapt2' | head -n1)
+        AAPT2_EXECUTABLE=$(find $ANDROID_HOME/build-tools -maxdepth 2 -name 'aapt2' | head -n1)
         mkdir .tmp
         unzip -p $FILE_PATH base/manifest/AndroidManifest.xml > ./.tmp/AndroidManifest.xml
         cd ./.tmp
@@ -62,3 +72,4 @@ if [ "$1" = "lint" ]; then flutter analyze; exit $?; fi
 if [ "$1" = "test" ]; then flutter test; exit $?; fi
 if [ "$1" = "build-apk" ]; then android_build_apk; exit; fi
 if [ "$1" = "android-version" ]; then get_android_version; exit; fi
+if [ "$1" = "android-build-apk-uat" ]; then android_build_apk_uat; exit; fi
