@@ -24,7 +24,7 @@ create_android_key(){
 add_android_debugkey(){
     echo "storePassword=android
 keyPassword=android
-keyAlias=upload
+keyAlias=androiddebugkey
 storeFile=$PWD/android-key.jks
  " > $PWD/android/key.properties
 
