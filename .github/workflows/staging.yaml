@@ -44,8 +44,8 @@ jobs:
       ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
       ANDROID_UPLOAD_KEY_BASE64: ${{ secrets.ANDROID_UPLOAD_KEY_BASE64 }}
     steps:
-      uses: actions/checkout@v4
-      uses: actions/cache@v4
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
         with:
           path: ./.flutter
           key: flutter-${{ runner.os }}-${{ github.repository }}-${{ env.FLUTTER_VERSION }}-${{ env.CACHE_VERSION }}
