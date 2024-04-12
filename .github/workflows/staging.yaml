@@ -26,8 +26,8 @@ jobs:
 
       - name: Log secrets and varialbe
         run: |
-          echo ${{ secrets.ANDROID_KEYPAIR_PASSWORD }}
-          echo ${{ vars.APP_NAME_EXAMPLE }}
+          echo " Secrets: ${{ secrets.ANDROID_KEYPAIR_PASSWORD }}"
+          echo " Variables: ${{ vars.APP_NAME_EXAMPLE }}"
 
       - name: Install flutter SDK
         run: ./run install-ci-flutter
