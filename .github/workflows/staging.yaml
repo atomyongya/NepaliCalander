@@ -36,7 +36,7 @@ jobs:
       - name: Check code passes unit tests.
         run: ./run test
 
-  JOB-build-android-to-artifact
+  JOB-build-android-to-artifact:
     name: Build android to artifact
     runs-on: ubuntu-latest
     timeout-minutes: 25
