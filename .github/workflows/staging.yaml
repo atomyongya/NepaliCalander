@@ -24,11 +24,6 @@ jobs:
           path: ./.flutter
           key: flutter-${{ runner.os }}-${{ github.repository }}-${{ env.FLUTTER_VERSION }}-${{ env.CACHE_VERSION }}
 
-      - name: Log secrets and varialbe
-        run: |
-          echo " Secrets: ${{ secrets.ANDROID_KEYPAIR_PASSWORD }}"
-          echo " Variables: ${{ vars.APP_NAME_EXAMPLE }}"
-
       - name: Install flutter SDK
         run: ./run install-ci-flutter
 
@@ -74,10 +69,10 @@ jobs:
           ./run build-apk
           ./appsign remove-android-key
 
-      # - name: Show generated version
-      #   run: |
-      #     export $EM_VERSION=$( ./run android-version build/app/outputs/flutter-apk/app-staging-release.apk all)
-      #     echo "App version is: $EM_VERSION"
+      - name: Show generated version
+        run: |
+          export SEM_VERSION=$( ./run android-version build/app/outputs/flutter-apk/app-staging-release.apk all)
+          echo "App version is: $SEM_VERSION"
 
       - name: Save anroid artifacts
         uses: actions/upload-artifact@v4

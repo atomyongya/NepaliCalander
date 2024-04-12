@@ -12,11 +12,53 @@ install_ci_flutter(){
     $FLUTTER_PATH/bin/flutter pub get
 }
 
+# Create android apk (Android Application Package), mainly used for dev environment.
 android_build_apk(){
     flutter build apk --flavor staging --dart-define=APP_FLAVOR=staging
+}
+
+# Get android version from apk or aab (Android App Bundle) file.
+get_android_version(){
+    # Apk or aab file path.
+    FILE_PATH=$1
+
+    # Option to show info of available apk or aab version (Options: "all", "store", "")
+    VERSION_INFO_OPTION=$2
+
+    # Extrace file extension
+    FILE_EXTENSION=$(echo FILE_PATH | cut -d'.' -f2)
+
+    # Locate aapt (Android Asset Packaging Tool)
+    AAPT_EXECUTABLE=$(find $ANDROID_PATH/build-tools -maxdepth 2 -name 'aapt' | head -n1)
+
+    # If file is of type aab.
+    if [ "$FILE_EXTENSION" = "aab" ]; then
+        AAPT2_EXECUTABLE=$(find $ANDROID_PATH/build-tools -maxdepth 2 -name 'aapt2' | head -n1)
+        mkdir .tmp
+        unzip -p $FILE_PATH base/manifest/AndroidManifest.xml > ./.tmp/AndroidManifest.xml
+        cd ./.tmp
+        FILE_PATH=version-xx.apk
+        zip proto_version.apk AndroidManifest.xml > /dev/null
+        $AAPT2_EXE convert proto_version.apk -o ../$FILE_PATH
+        cd ..; rm -rf .tmp;
+    fi
+
+    AWK_APK_VERSION='/versionName=/ {
+        if ("'$VERSION_INFO_OPTION'" == "all") {
+            print $6 "+" $4;
+        }else {
+            print $6;
+        }
+    }'
+
+    SEM_VERSION=$($AAPT_EXECUTABLE dump badging $FILE_PATH 2> /dev/null | awk -F "'" "$AWK_APK_VERSION")
+    echo $SEM_VERSION
+
+    if [ "$FILE_PATH" = "version-xx.apk" ]; then rm $FILE_PATH; fi
 }
 
 if [ "$1" = "install-ci-flutter" ]; then install_ci_flutter; exit; fi
 if [ "$1" = "lint" ]; then flutter analyze; exit $?; fi
 if [ "$1" = "test" ]; then flutter test; exit $?; fi
 if [ "$1" = "build-apk" ]; then android_build_apk; exit; fi
+if [ "$1" = "android-version" ]; then get_android_version; exit; fi
