@@ -25,8 +25,7 @@ add_android_key(){
     echo "storePassword=$ANDROID_KEYSTORE_PASSWORD
 keyPassword=$ANDROID_KEYSTORE_PASSWORD
 keyAlias=upload
-storeFile=$PWD/$ANDROID_KEY_FILE
-" > $PWD/android/key.properties
+storeFile=$PWD/$ANDROID_KEY_FILE" > $PWD/android/key.properties
 
     FULL_KEYFILE_PATH=$PWD/$ANDROID_KEY_FILE
     echo $FULL_KEYFILE_PATH
