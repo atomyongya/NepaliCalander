@@ -10,7 +10,7 @@ env:
   FLUTTER_PATH: .flutter
 
 jobs:
-  JOB-validate-code:
+  JOB-code-validation:
     name: Check code
     environment: staging
     runs-on: ubuntu-latest
