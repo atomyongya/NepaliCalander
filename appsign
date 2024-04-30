@@ -22,6 +22,8 @@ create_android_key(){
 
 # For uat and prod flavor.
 add_android_key(){
+    echo $ANDROID_KEYSTORE_PASSWORD
+    echo $ANDROID_KEYSTORE_PASSWORD
     echo "storePassword=$ANDROID_KEYSTORE_PASSWORD
 keyPassword=$ANDROID_KEYSTORE_PASSWORD
 keyAlias=upload
