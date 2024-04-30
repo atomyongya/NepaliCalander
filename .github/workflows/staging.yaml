@@ -52,7 +52,7 @@ jobs:
           key: flutter-${{ runner.os }}-${{ github.repository }}-${{ env.FLUTTER_VERSION }}-${{ env.CACHE_VERSION }}
 
       - name: Install Flutter SDK
-        run: ./run intall-ci-flutter
+        run: ./run install-ci-flutter
 
       - name: Check flutter version
         run: flutter --version
@@ -76,4 +76,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: android-result
-          path: build/app/outputs/flutter-apk/app-uat-release.apk
+          path: build/app/outputs/flutter-apk/app-staging-release.apk
