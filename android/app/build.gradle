@@ -76,7 +76,7 @@ android {
 
     signingConfigs {
         release {
-            if (keyStorePropertiesFile.exists()){
+             if (keyStorePropertiesFile.exists()){
                 keyProperties.load(keyStorePropertiesFile.newDataInputStream())
                 storeFile keyProperties['storeFile'] ? file(keyProperties['storeFile']) : null
                 storePassword keyProperties.getProperty('storePassword')

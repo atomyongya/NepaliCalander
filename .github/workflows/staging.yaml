@@ -39,7 +39,6 @@ jobs:
 
   JOB-build-android-to-artifact:
     name: Build android to artifact
-    environment: staging
     needs: JOB-code-validation
     runs-on: ubuntu-latest
     timeout-minutes: 25
