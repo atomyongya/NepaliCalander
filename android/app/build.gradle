@@ -23,8 +23,11 @@ if (flutterVersionName == null) {
 }
 
 // Check key.properties file on root folder of build.gradle.
-def keyProperties = new Properties()
-def keyStorePropertiesFile = rootProject.file('key.properties')
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 
 android {
     namespace "com.example.calander"
@@ -76,13 +79,10 @@ android {
 
     signingConfigs {
         release {
-            if (keyStorePropertiesFile.exists()){
-                keyProperties.load(keyStorePropertiesFile.newDataInputStream())
-                storeFile keyProperties['storeFile'] ? file(keyProperties['storeFile']) : null
-                storePassword keyProperties.getProperty('storePassword')
-                keyAlias keyProperties.getProperty('keyAlias')
-                keyPassword keyProperties.getProperty('keyPassword')
-            }
+           keyAlias keystoreProperties['keyAlias']
+           keyPassword keystoreProperties['keyPassword']
+           storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+           storePassword keystoreProperties['storePassword']
         }
         debug {
             storeFile file("../../android-debug-key.jks")

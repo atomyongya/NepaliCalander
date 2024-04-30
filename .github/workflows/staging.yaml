@@ -39,6 +39,7 @@ jobs:
 
   JOB-build-android-to-artifact:
     name: Build android to artifact
+    environment: staging
     runs-on: ubuntu-latest
     timeout-minutes: 25
     env:
@@ -62,7 +63,7 @@ jobs:
           ./appsign add-android-key
           ls -alh *.jks
 
-      - name: Build Android AAB file
+      - name: Build Android APK file
         run: |
           ./run android-build-apk-uat
           ./appsign remove-android-key
