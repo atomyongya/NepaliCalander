@@ -1,0 +1,58 @@
+#!/bin/sh
+# script for handling IOS and android mobile application signing
+
+### Android key management.
+
+# Generate keystore key.
+create_android_key(){
+    if [ "$ANDROID_KEY_FILE" = "" ]; then echo "ANDROID_KEY_FILE cannot be blank"; exit; fi
+    if [ "$ANDROID_KEY_INFO" = "" ]; then echo "ANDROID_KEY_INFO cannot be blank"; exit; fi
+    if [ "$ANDROID_KEYSTORE_PASSWORD" = "" ]; then echo "ANDROID_KEYSTORE_PASSWORD cannot be blank"; exit; fi
+
+    # Command to create signing file or keystore
+    # To learn more about keystore visit
+    # https://docs.flutter.dev/deployment/android#create-an-upload-keystore
+    keytool -genkeypair -v -keystore $ANDROID_KEY_FILE \
+    -alias upload \
+    -keyalg RSA -keysize 2048 -validity 10000 \
+    -dname "$ANDROID_KEY_INFO" \
+    -keypass $ANDROID_KEYSTORE_PASSWORD \
+    -storepass $ANDROID_KEYSTORE_PASSWORD
+}
+
+# For uat and prod flavor.
+add_android_key(){
+    echo "storePassword=$ANDROID_KEYSTORE_PASSWORD
+keyPassword=$ANDROID_KEYSTORE_PASSWORD
+keyAlias=upload
+storeFile=$PWD/$ANDROID_KEY_FILE" > $PWD/android/key.properties
+
+    FULL_KEYFILE_PATH=$PWD/$ANDROID_KEY_FILE
+    echo $FULL_KEYFILE_PATH
+    echo $ANDROID_UPLOAD_KEY_BASE64 | base64 --decode > $FULL_KEYFILE_PATH
+}
+
+# For staging use default generated key.
+add_android_debugkey(){
+    echo "storePassword=android
+keyPassword=android
+keyAlias=androiddebugkey
+storeFile=$PWD/android-key.jks
+ " > $PWD/android/key.properties
+
+    FULL_KEYFILE_PATH=$PWD/$ANDROID_KEY_FILE
+    cp $PWD/android-debug-key.jks $FULL_KEYFILE_PATH
+}
+
+# Remove Android key
+remove_android_key(){
+    FULL_KEYFILE_PATH= $PWD/$ANDROID_KEY_FILE
+    rm -f $FULL_KEYFILE_PATH
+}
+
+if [ -f ./env.settings ]; then . ./env.settings; fi
+
+if [ "$1" = "create-android-key" ]; then create_android_key; exit; fi
+if [ "$1" = "remove-android-key" ]; then remove_android_key; exit; fi
+if [ "$1" = "add-android-debugkey" ]; then add_android_debugkey; exit;fi
+if [ "$1" = "add-android-key" ]; then add_android_key; exit; fi

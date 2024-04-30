@@ -1,0 +1,56 @@
+name: Nepali Calander Staging Workflow
+on:
+  push:
+    branches:
+      - feat_1/github_actions
+
+env:
+  FLUTTER_VERSION: 3.19.2
+  CACHE_VERSION: 2024_04_12
+  FLUTTER_PATH: .flutter
+
+jobs:
+  !include common.yaml
+
+  JOB-build-android-to-artifact:
+    name: Build android to artifact
+    environment: staging
+    needs: JOB-code-validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+      ANDROID_UPLOAD_KEY_BASE64: ${{ secrets.ANDROID_UPLOAD_KEY_BASE64 }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: ./.flutter
+          key: flutter-${{ runner.os }}-${{ github.repository }}-${{ env.FLUTTER_VERSION }}-${{ env.CACHE_VERSION }}
+
+      - name: Install Flutter SDK
+        run: ./run install-ci-flutter
+
+      - name: Check flutter version
+        run: flutter --version
+
+      - name: Get Android code signing file
+        run: |
+          ./appsign add-android-key
+          ls -alh *.jks
+
+      - name: Build Android APK file
+        run: |
+          ./run android-build-apk-uat
+          ./appsign remove-android-key
+
+      - name: Show generated version
+        run: |
+          export SEM_VERSION=$(./run android-version build/app/outputs/flutter-apk/app-uat-release.apk all)
+          echo "App version is: $SEM_VERSION"
+
+      - name: Save android artifcat
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-result
+          path: build/app/outputs/flutter-apk/app-staging-release.apk
